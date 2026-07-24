@@ -17,6 +17,8 @@ limitations under the License.
 package cyborg
 
 import (
+	"k8s.io/utils/ptr"
+
 	cyborgv1beta1 "github.com/openstack-k8s-operators/nova-operator/api/cyborg/v1beta1"
 
 	"github.com/openstack-k8s-operators/lib-common/modules/common/env"
@@ -31,7 +33,6 @@ func DbSyncJob(
 	labels map[string]string,
 	annotations map[string]string,
 ) *batchv1.Job {
-	runAsUser := int64(0)
 	completions := int32(1)
 	parallelism := int32(1)
 	var config0644AccessMode int32 = 0644
@@ -134,7 +135,7 @@ func DbSyncJob(
 							Args:  args,
 							Image: instance.Spec.ConductorContainerImageURL,
 							SecurityContext: &corev1.SecurityContext{
-								RunAsUser: &runAsUser,
+								RunAsUser: ptr.To(CyborgUserID),
 							},
 							Env:          env.MergeEnvs([]corev1.EnvVar{}, envVars),
 							VolumeMounts: volumeMounts,

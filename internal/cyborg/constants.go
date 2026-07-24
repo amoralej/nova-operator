@@ -53,4 +53,8 @@ const (
 
 	// LogVolume is the name of the EmptyDir volume used for log streaming
 	LogVolume = "logs"
+
+	// CyborgUserID is the linux user ID used by Kolla for the cyborg user
+	// in the service containers
+	CyborgUserID int64 = 42483
 )
